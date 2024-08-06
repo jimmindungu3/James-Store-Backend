@@ -3,6 +3,8 @@ const { connectToDb, getDb } = require("./db");
 const PORT = 3000;
 
 const app = express();
+app.use(express.json());
+
 let db;
 connectToDb((err) => {
   if (!err) {
@@ -45,21 +47,29 @@ app.get("/api/women's-clothing", (req, res) => {
 });
 
 app.get("/api/electronics", (req, res) => {
-    let electronics = [];
-    db.collection("products")
-      .find()
-      .filter({ category: "electronics" })
-      .forEach((product) => electronics.push(product))
-      .then(() => res.status(200).json(electronics))
-      .catch(() => res.status(500).json({ error: "Could not fetch products" }));
-  });
+  let electronics = [];
+  db.collection("products")
+    .find()
+    .filter({ category: "electronics" })
+    .forEach((product) => electronics.push(product))
+    .then(() => res.status(200).json(electronics))
+    .catch(() => res.status(500).json({ error: "Could not fetch products" }));
+});
 
-  app.get("/api/jewellery", (req, res) => {
-    let jewellery = [];
-    db.collection("products")
-      .find()
-      .filter({ category: "jewellery" })
-      .forEach((product) => jewellery.push(product))
-      .then(() => res.status(200).json(jewellery))
-      .catch(() => res.status(500).json({ error: "Could not fetch products" }));
-  });
+app.get("/api/jewellery", (req, res) => {
+  let jewellery = [];
+  db.collection("products")
+    .find()
+    .filter({ category: "jewellery" })
+    .forEach((product) => jewellery.push(product))
+    .then(() => res.status(200).json(jewellery))
+    .catch(() => res.status(500).json({ error: "Could not fetch products" }));
+});
+
+app.post("/api/products", (req, res) => {
+  const product = req.body;
+  db.collection("products")
+    .insertOne(product)
+    .then((result) => res.status(201).json(result))
+    .catch(() => res.status(500).json({ error: "Could not create document" }));
+});
