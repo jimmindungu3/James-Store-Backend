@@ -1,5 +1,6 @@
 const express = require("express");
 const { connectToDb, getDb } = require("./db");
+const { ObjectId } = require("mongodb");
 const PORT = 3000;
 
 const app = express();
@@ -73,3 +74,14 @@ app.post("/api/products", (req, res) => {
     .then((result) => res.status(201).json(result))
     .catch(() => res.status(500).json({ error: "Could not create document" }));
 });
+
+app.delete("/api/products/:id", (req, res) => {
+    if (ObjectId.isValid(req.params.id)) {
+      db.collection("products")
+        .deleteOne({ _id: new ObjectId(req.params.id) })
+        .then((result) => res.status(204).json(result))
+        .catch((err) => res.status(500).json({ error: err }));
+    } else {
+      res.status(404).json({ error: "Passed ID invalid" });
+    }
+  });
