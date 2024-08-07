@@ -85,3 +85,9 @@ app.delete("/api/products/:id", (req, res) => {
       res.status(404).json({ error: "Passed ID invalid" });
     }
   });
+
+
+
+
+
+  
