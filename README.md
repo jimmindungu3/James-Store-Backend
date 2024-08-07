@@ -48,8 +48,6 @@ Base URL: https://james-store-backend.onrender.com
 
 For POST, DELETE, and PATCH operations, replace `:id` with the actual product ID.
 
-[You could add more details about request bodies, parameters, and example responses here]
-
 ## Database Connection
 
 The application uses MongoDB Atlas for data storage. The connection is established using the `MongoClient` from the `mongodb` package.
